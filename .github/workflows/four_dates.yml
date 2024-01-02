@@ -1,0 +1,42 @@
+name: four dates printed
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    # First job
+    first_print:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: print current date on ubuntu
+              run: echo "The current date is $(date)"
+
+    # Second job
+    second_print:
+        runs-on: windows-latest
+        needs: first_print
+
+        steps:
+            - name: print current date on windows
+              run: echo "The current date is $((Get-Date).ToString())"
+
+    # Third job
+    third_print:
+        runs-on: macos-latest
+        needs: second_print
+
+        steps:
+            - name: print current date on macos
+              run: echo "The current date is $(date)"
+
+    # Fourth Job
+    fourth_print:
+        runs-on: debian
+        need: third_print
+
+        steps:
+            - name: print current date on debian
+              run: echo "The current date is $(date)"
